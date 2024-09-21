@@ -18,7 +18,7 @@ const OrbNavigation = () => {
   const pepperRef = useRef(null);
   const circleRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
   const circleLayouts = useRef(null); // UseRef to store circle layouts
-  const isReady = useRef(true); // Flag to track if layouts have been measured
+  const isReady = useRef(true); // Flag to track if layouts have been measublue
 
   const [isNavigationVisible, setIsNavigationVisible] = useState(false);
 

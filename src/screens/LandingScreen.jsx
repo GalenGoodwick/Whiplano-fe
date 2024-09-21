@@ -24,7 +24,7 @@ const LandingScreen = () => {
   ];
 
   const circleLayouts = useRef(null); // UseRef to store circle layouts
-  const isReady = useRef(true); // Flag to track if layouts have been measured
+  const isReady = useRef(true); // Flag to track if layouts have been measublue
 
   // State to store the current title
   const [locationTitle, setLocationTitle] = useState("Location Title");
@@ -60,11 +60,9 @@ const LandingScreen = () => {
                 circleLayouts.current.forEach((circle, index) => {
                   if (isCollision(pepperBox, circle)) {
                     if (index === 0) {
-                      console.log("0")
                       navigation.navigate("Home");
                     } else if (index === 1) {
-                      setLocationTitle("Learn");
-                      navigation.navigate("Splash");
+                      navigation.navigate("TrsMarket");
                     } else if (index === 2) {
                       setLocationTitle("Account");
                       // navigation.navigate("Splash");
@@ -122,7 +120,6 @@ const LandingScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-     
       {/* Pepper in the Center with Hand Icon */}
       <Animated.View
         ref={pepperRef}
@@ -135,7 +132,7 @@ const LandingScreen = () => {
         />
       </Animated.View>
 
-       <View>
+      <View>
         {/* Dynamic Top Title */}
         <Text style={styles.title}>{locationTitle}</Text>
       </View>
@@ -147,11 +144,13 @@ const LandingScreen = () => {
           <View ref={circleRefs[0]} style={styles.circle}></View>
         </View>
         <View style={styles.row}>
-          <View ref={circleRefs[1]} style={styles.circle}>
-            <Text>Learn</Text>
+          <View>
+            <Text>Market Place</Text>
+            <View ref={circleRefs[1]} style={styles.circle}></View>
           </View>
-          <View ref={circleRefs[2]} style={styles.circle}>
+          <View>
             <Text>Account</Text>
+            <View ref={circleRefs[2]} style={styles.circle}></View>
           </View>
         </View>
         <Text style={styles.pepperText}>

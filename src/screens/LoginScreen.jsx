@@ -30,7 +30,7 @@ const LoginScreen = () => {
         secureTextEntry
       />
 
-      <TouchableOpacity className="h-12 bg-blue-600 rounded-lg justify-center items-center mb-5">
+      <TouchableOpacity className="h-12 bg-blue-600 rounded-lg justify-center items-center mb-5" onPress={() => navigate.navigate("Landing")} >
         <Text className="text-white text-lg font-semibold">Login</Text>
       </TouchableOpacity>
 
