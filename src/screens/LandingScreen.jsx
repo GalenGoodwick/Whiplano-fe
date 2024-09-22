@@ -6,11 +6,19 @@ import {
   PanResponder,
   Animated,
   Dimensions,
+  TouchableOpacity,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../redux/slices/authSlice";
 
 const LandingScreen = () => {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+
+console.log("Authenticated User: ", user);
+
   const navigation = useNavigation();
   const pan = useRef(new Animated.ValueXY()).current;
   const pepperRef = useRef(null);
@@ -118,6 +126,11 @@ const LandingScreen = () => {
     setTimeout(() => measureCircles(), 500);
   }, []);
 
+  const handleLogout = () => {
+    // Perform logout logic here
+    dispatch(logoutUser());
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       {/* Pepper in the Center with Hand Icon */}
@@ -131,7 +144,11 @@ const LandingScreen = () => {
           style={styles.pepperImage}
         />
       </Animated.View>
-
+      <View>
+      <TouchableOpacity onPress={handleLogout}>
+        <Text>Logout</Text>
+        </TouchableOpacity>
+      </View>
       <View>
         {/* Dynamic Top Title */}
         <Text style={styles.title}>{locationTitle}</Text>

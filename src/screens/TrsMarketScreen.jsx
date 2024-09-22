@@ -1,10 +1,12 @@
 // screens/TrsMarketScreen.js
 import React from 'react';
 import { View, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 import TrsHeader from '../components/common/trsHeader';
 import TrsSection from '../components/TrsMarketPlace/section';
 import CustomCarousel from '../components/common/customCarousel';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import OrbNavigation from "../components/OrbNavigation";
 const TrsMarketScreen = () => {
   const perfectForYouProducts = [
     { name: 'Whiplano Book', price: 12.00 },
@@ -22,8 +24,9 @@ const TrsMarketScreen = () => {
       <ScrollView>
         <CustomCarousel />
         <TrsSection title="Perfect for you" products={perfectForYouProducts} />
-        <TrsSection title="For this summer" products={forSummerProducts} />
+        <TrsSection title="For this summer" products={forSummerProducts} /> 
       </ScrollView>
+      <OrbNavigation />
     </SafeAreaView>
   );
 };
