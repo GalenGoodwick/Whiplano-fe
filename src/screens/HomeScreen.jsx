@@ -1,13 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView, TouchableOpacity, Text, View } from "react-native";
 import OrbNavigation from "../components/OrbNavigation";
+import axios from "axios";
+import { wallet } from "../constant/routes";
 
 const HomeScreen = () => {
-  const [isNavigationVisible, setIsNavigationVisible] = useState(false);
-
-  const toggleNavigation = () => {
-    setIsNavigationVisible(!isNavigationVisible);
+  const fetchTrs = async () => {
+    try {
+      const { data } = await axios.get(`${wallet}/get`);
+      console.log(data);
+    } catch (error) {
+      console.log("🚀 ~ fetchTrs ~ error:", error.response.data);
+    }
   };
+
+  useEffect(() => {
+    fetchTrs();
+  }, []);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -21,7 +30,7 @@ const HomeScreen = () => {
         </Text>
       </View>
 
-      <OrbNavigation />      
+      <OrbNavigation />
     </SafeAreaView>
   );
 };

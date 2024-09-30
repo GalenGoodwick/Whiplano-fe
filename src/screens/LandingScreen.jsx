@@ -72,8 +72,7 @@ console.log("Authenticated User: ", user);
                     } else if (index === 1) {
                       navigation.navigate("TrsMarket");
                     } else if (index === 2) {
-                      setLocationTitle("Account");
-                      // navigation.navigate("Splash");
+                      navigation.navigate("Wallet");
                     } else if (index === 3) {
                       setLocationTitle("Exit");
                       // navigation.navigate("Splash");
@@ -166,7 +165,7 @@ console.log("Authenticated User: ", user);
             <View ref={circleRefs[1]} style={styles.circle}></View>
           </View>
           <View>
-            <Text>Account</Text>
+            <Text>Wallet</Text>
             <View ref={circleRefs[2]} style={styles.circle}></View>
           </View>
         </View>

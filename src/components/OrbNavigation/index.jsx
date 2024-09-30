@@ -10,8 +10,9 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { FaDollarSign, FaTimes, FaComments, FaMapMarkedAlt } from 'react-icons/fa'; // Importing icons from react-icons
+import color from "../../constant/color";
 
+const screenWidth = Dimensions.get('window').width;
 const OrbNavigation = () => {
   const navigation = useNavigation();
   const pan = useRef(new Animated.ValueXY()).current;
@@ -116,24 +117,41 @@ const OrbNavigation = () => {
   return (
     <>
       {/* Pepper button (changes to cross when navigation is visible) */}
+      <View
+      style={{
+        position: 'absolute',
+        bottom: 30,
+        right: 0,
+        left: 0, // Ensures the button spans the full width
+        width: screenWidth - 30, // Full width minus a little margin
+        marginHorizontal: 15, // Center horizontally with margin
+        zIndex: 999
+      }}
+    >
       <TouchableOpacity
         onPress={toggleNavigation}
         style={{
-          position: "absolute",
-          bottom: 30,
-          right: 30,
-          backgroundColor: "yellow",
-          borderRadius: 50,
-          padding: 15,
-          zIndex: 999, // Keep the button on top
-          justifyContent: "center",
-          alignItems: "center",
+          backgroundColor: color.purple, // Purple color from the image
+          borderRadius: 30,
+          paddingVertical: 10,
+          paddingHorizontal: 20,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
-        <Text style={{ fontSize: 24 }}>
-          {isNavigationVisible ? "✖️" : "🍏"}
+        {/* Text */}
+        <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold', marginRight: 10 }}>
+          My TRS Inventory
         </Text>
+
+        {/* Image or Icon */}
+        <Image
+          source={{ uri: 'https://i.ibb.co/XWhq3k7/Whippy.png' }} // Replace with the actual logo URL
+          style={{ width: 50, height: 50, borderRadius: 15 }} // Icon size and style
+        />
       </TouchableOpacity>
+    </View>
 
       {isNavigationVisible && (
         <View
@@ -149,7 +167,9 @@ const OrbNavigation = () => {
         >
           <SafeAreaView className="p-3">
             <View className="flex-row items-center justify-between">
-              <Text className="text-3xl font-bold text-black">ORB Navigation</Text>
+              <Text className="text-3xl font-bold text-black">
+                ORB Navigation
+              </Text>
 
               <Animated.View
                 ref={pepperRef}
