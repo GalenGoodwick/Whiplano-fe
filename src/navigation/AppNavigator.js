@@ -15,6 +15,7 @@ import ReviewSummary from "../screens/ReviewSummaryScreen";
 import CreateTRSScreen from "../screens/CreateTrsScreen";
 import { checkAuthState } from "../redux/slices/authSlice";
 import TrsInventoryScreen from "../screens/TrsInventoryScreen";
+import TrsDetailScreen from "../screens/TrsDetailScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -73,6 +74,11 @@ const AppNavigator = () => {
             <Stack.Screen
               name="Wallet"
               component={TrsInventoryScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="TrsDetail"
+              component={TrsDetailScreen}
               options={{ headerShown: false }}
             />
           </>

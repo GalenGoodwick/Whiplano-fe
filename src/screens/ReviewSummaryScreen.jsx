@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import CheckoutProgress from '../components/common/checkProgress';
-import SuccessModal from '../components/common/successModal';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import SuccessModal from '../components/common/successMessage';
 
 const ReviewSummary = () => {
   const [modalVisible, setModalVisible] = useState(false);
