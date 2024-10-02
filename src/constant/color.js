@@ -4,5 +4,5 @@ export default {
     primary: '#007bff',
     secondary: '#6c757d',
     success: '#28a745',
-    purple: '#464D8E',
+    primary_purple: '#464D8E',
 }

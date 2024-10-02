@@ -1,13 +1,22 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, FlatList, TouchableOpacity, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { wallet } from "../constant/routes";
 import OrbNavigation from "../components/OrbNavigation";
+import TrsCard from "../components/common/trsCard";
 
 const TrsInventoryScreen = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true); // Manage loading state
+  const [selectedTab, setSelectedTab] = useState("inventory");
 
   // Function to convert the API response object into an array of collections
   const convertApiResponseToArray = (response) => {
@@ -37,66 +46,40 @@ const TrsInventoryScreen = () => {
   }, []);
 
   // Component for rendering each card
-  const BookCard = ({ item }) => {
-    return (
-      <View className="bg-white p-4 rounded-lg shadow-lg mb-4">
-        {/* Image Section */}
-        <Image
-          source={{ uri: "https://i.ibb.co/tLB8RGL/Image-4.png" }} // Replace with the actual image URL
-          className="w-full h-40 rounded-lg mb-4"
-        />
-
-        {/* Inventory and Author Information */}
-        <View className="flex-row justify-between items-center mb-2">
-          <Text className="text-gray-500 text-xs">
-            {10} / {100}
-          </Text>
-          <Text className="text-gray-500 text-xs">zango</Text>
-        </View>
-
-        {/* Title */}
-        <Text className="font-bold text-medium mb-2 max-w-[70%]">{item.id}</Text>
-
-        {/* Description */}
-        <Text className="text-sm text-gray-600 mb-4" numberOfLines={3}>
-          {item.data}
-        </Text>
-
-        {/* Activate Button */}
-        <TouchableOpacity className="bg-white py-2 px-4 rounded-lg flex-row items-center justify-center w-1/2 shadow-2xl border border-gray-300">
-          <Text className="text-sm text-black mr-2">Activate</Text>
-          {/* You can replace the emoji with an icon */}
-          <Text className="text-sm">🔗</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
 
   return (
     <SafeAreaView className="flex-1 bg-gray-100 p-4">
-      <View>
-        <Text className="text-lg font-bold mb-2 text-center">Maria</Text>
-
-        {/* Image Section */}
-        <Image
-          source={{ uri: "https://via.placeholder.com/600x300" }} // Replace with actual image URL
-          className="w-full h-40 rounded-lg mb-2 shadow-lg"
-        />
-
-        {/* User Information */}
-        <View className="flex-row justify-between items-center">
-          <View className="bg-indigo-600 rounded-full px-3 py-1">
-            <Text className="text-white text-xs">Investor</Text>
+      
+      <View className="flex-row justify-between p-4 border-b border-gray-200">
+        <Text className="text-xl font-bold">My TRS</Text>
+        <TouchableOpacity className="flex-row items-center">
+          <Text className="text-gray-500">Create TRS</Text>
+          <View className="ml-1 h-6 w-6 border border-gray-500 rounded-full justify-center items-center">
+            <Text className="text-gray-500">+</Text>
           </View>
-        </View>
+        </TouchableOpacity>
+      </View>
 
-        {/* Bottom Section */}
-        <View className="flex-row justify-between items-center mt-2">
-          <Text>TRS</Text>
-          <View className="items-end">
-            <Text className="text-gray-500 text-xs">06/24 (Active)</Text>
-          </View>
-        </View>
+      
+      {/* Tabs */}
+      <View className="flex-row justify-between bg-gray-100 rounded-lg mt-4 mx-4">
+        <TouchableOpacity
+          className={`flex-1 py-2 rounded-lg items-center ${selectedTab === "inventory" ? "bg-[#464D8E]" : "bg-transparent"}`}
+          onPress={() => setSelectedTab("inventory")}
+        >
+          <Text className={selectedTab === "inventory" ? "text-white" : "text-gray-500"}>
+            Inventory
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          className={`flex-1 py-2 rounded-lg items-center ${selectedTab === "uploads" ? "bg-indigo-500" : "bg-transparent"}`}
+          onPress={() => setSelectedTab("uploads")}
+        >
+          <Text className={selectedTab === "uploads" ? "text-white" : "text-gray-500"}>
+            My uploads
+          </Text>
+        </TouchableOpacity>
       </View>
 
       <View>
@@ -107,7 +90,7 @@ const TrsInventoryScreen = () => {
           <FlatList
             data={data}
             keyExtractor={(item) => item.id}
-            renderItem={({ item }) => <BookCard item={item} />}
+            renderItem={({ item }) => <TrsCard item={item} />}
             contentContainerStyle={{ marginTop: 10, padding: 10 }}
           />
         )}

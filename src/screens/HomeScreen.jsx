@@ -3,8 +3,12 @@ import { SafeAreaView, TouchableOpacity, Text, View } from "react-native";
 import OrbNavigation from "../components/OrbNavigation";
 import axios from "axios";
 import { wallet } from "../constant/routes";
+import { useSelector } from "react-redux";
 
 const HomeScreen = () => {
+
+  const currentUser = useSelector((state) => state.auth);
+  console.log("🚀 ~ HomeScreen ~ currentUser:", currentUser)
   const fetchTrs = async () => {
     try {
       const { data } = await axios.get(`${wallet}/get`);

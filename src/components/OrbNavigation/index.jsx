@@ -131,7 +131,7 @@ const OrbNavigation = () => {
       <TouchableOpacity
         onPress={toggleNavigation}
         style={{
-          backgroundColor: color.purple, // Purple color from the image
+          backgroundColor: color.primary_purple, // Purple color from the image
           borderRadius: 30,
           paddingVertical: 10,
           paddingHorizontal: 20,

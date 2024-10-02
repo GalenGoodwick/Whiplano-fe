@@ -5,3 +5,4 @@ const host = "https://whiplano-1b8102db6480.herokuapp.com";
 export const login = `${host}/login`;
 export const signup = `${host}/signup`;
 export const wallet = `${host}/wallet`;
+export const user = `${host}/users`;

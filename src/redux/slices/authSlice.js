@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { login, signup } from "../../constant/routes";
+import { login, signup, user } from "../../constant/routes";
 import {
   hideToast,
   showErrorToast,
@@ -52,34 +52,56 @@ export const signUpUser = createAsyncThunk(
 );
 
 // Async thunk to handle login
+// Async thunk to handle login and fetch user details using the token
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async (userData, { rejectWithValue }) => {
     try {
       showLoadingToast("Logging in...");
 
-      // Format the data as x-www-form-urlencoded
+      // Step 1: Login request to get the access token
       const params = new URLSearchParams();
       params.append("email", userData.email);
       params.append("password", userData.password);
 
-      // Axios request with application/x-www-form-urlencoded content-type
       const { data } = await axios.post(login, params, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
       });
+      console.log("🚀 ~ data:", data)
 
-      // Store user data
-      await AsyncStorage.setItem("user", JSON.stringify(data));
+      const accessToken = data.access_token;
+
+      // Step 2: Use the access token to fetch user details from /user/me
+      const { data: userDetails } = await axios.get(`${user}/me`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log("🚀 ~ userDetails:", userDetails)
+
+
+      // Combine access token and user details into one object
+      const userWithToken = {
+        ...userDetails,
+        accessToken,
+      };
+
+      // Store the combined object in one key ("user") in AsyncStorage
+      await AsyncStorage.setItem("user", JSON.stringify(userWithToken));
 
       hideToast(); // Remove loading toast
-      showSuccessToast("Logged in successfully!"); // Show success toast
+      showSuccessToast("Logged in successfully!");
 
-      return data;
+      // Return the combined object (accessToken and user details)
+      return userWithToken;
     } catch (error) {
+      console.log("🚀 ~ error:", error.response.data)
       hideToast(); // Remove loading toast
-      showErrorToast("Failed to login"); // Show error toast
+      showErrorToast("Failed to login");
 
       return rejectWithValue(
         error.response?.data?.message || "Failed to login"
@@ -87,6 +109,7 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
+
 
 // Async thunk to handle logout
 export const logoutUser = createAsyncThunk(
@@ -155,7 +178,7 @@ const authSlice = createSlice({
         state.user = action.payload;
         state.isAuthenticated = true;
         state.loading = false;
-        setAuthToken(action.payload.access_token);
+        setAuthToken(action.payload.accessToken);
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.error = action.payload;
@@ -178,11 +201,10 @@ const authSlice = createSlice({
         state.loading = true;
       })
       .addCase(checkAuthState.fulfilled, (state, action) => {
-        console.log("🚀 ~ .addCase ~ action:", action)
         if (action.payload) {
           state.user = action.payload;
           state.isAuthenticated = true;
-          setAuthToken(action.payload.access_token);
+          setAuthToken(action.payload.accessToken);
         } else {
           state.user = null;
           state.isAuthenticated = false;
