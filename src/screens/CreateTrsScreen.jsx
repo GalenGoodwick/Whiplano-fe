@@ -1,16 +1,25 @@
-// screens/CreateTRSScreen.js
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-import CustomTextInput from '../components/common/customTextInput';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
+import * as ImagePicker from "expo-image-picker";
+import CustomTextInput from "../components/common/customTextInput";
+import { SafeAreaView } from "react-native-safe-area-context";
+import GradientButton from "../components/common/gradientBtn";
+import { useNavigation } from "@react-navigation/native";
 
+const CreateTRSScreen = ({ route }) => {
+  const navigation = useNavigation();
 
-const CreateTRSScreen = () => {
-  const [collectionName, setCollectionName] = useState('');
-  const [publisherName, setPublisherName] = useState('');
-  const [number, setNumber] = useState('');
-  const [image, setImage] = useState(null);
+  // Destructure the data passed from route params (if available)
+  const { title = "", description = "", price = "", trsAmount = "", contentUrl = "", image = null } = route.params || {};
+
+  const [trsData, setTRSData] = useState({
+    title,
+    description,
+    price,
+    trsAmount,
+    contentUrl,
+    image,
+  });
 
   // Handle image picker
   const pickImage = async () => {
@@ -22,58 +31,83 @@ const CreateTRSScreen = () => {
     });
 
     if (!result.canceled) {
-      setImage(result.uri);
+      setTRSData({ ...trsData, image: result.assets[0].uri });
     }
   };
 
   return (
     <SafeAreaView className="flex-1 bg-white p-4">
-      <Text className="text-xl font-bold text-center mb-6">Create TRS</Text>
+      <ScrollView>
+        <Text className="text-xl font-bold mb-6">Create TRS</Text>
+        <Text className="text-sm text-gray-400 mb-6">
+          Create your TRS and put it out in the market
+        </Text>
 
-      {/* Collection Name */}
-      <CustomTextInput
-        label="Collection Name"
-        value={collectionName}
-        onChangeText={setCollectionName}
-        placeholder="Enter collection name"
-      />
+        {/* Title */}
+        <CustomTextInput
+          label="Title"
+          value={trsData.title}
+          onChangeText={(text) => setTRSData({ ...trsData, title: text })}
+          placeholder="Enter collection name"
+        />
 
-      {/* Publisher Name */}
-      <CustomTextInput
-        label="Publisher Name"
-        value={publisherName}
-        onChangeText={setPublisherName}
-        placeholder="Enter publisher name"
-      />
+        {/* Short description */}
+        <CustomTextInput
+          label="Short description"
+          value={trsData.description}
+          onChangeText={(text) => setTRSData({ ...trsData, description: text })}
+          placeholder="Enter publisher name"
+        />
 
-      {/* Number */}
-      <CustomTextInput
-        label="Number"
-        value={number}
-        onChangeText={setNumber}
-        placeholder="Enter number"
-        keyboardType="numeric"
-      />
+        {/* Price */}
+        <CustomTextInput
+          label="Price"
+          value={trsData.price}
+          onChangeText={(text) => setTRSData({ ...trsData, price: text })}
+          placeholder="$"
+          keyboardType="numeric"
+        />
 
-      {/* Image Upload */}
-      <View className="mb-6">
-        <Text className="text-base text-gray-700 mb-2">Upload Image</Text>
-        <TouchableOpacity
-          className="bg-gray-100 h-40 w-full rounded-lg justify-center items-center border border-gray-300"
-          onPress={pickImage}
-        >
-          {image ? (
-            <Image source={{ uri: image }} className="h-full w-full rounded-lg" resizeMode="cover" />
-          ) : (
-            <Text className="text-gray-500">Tap to select an image</Text>
-          )}
-        </TouchableOpacity>
-      </View>
+        <CustomTextInput
+          label="TRS Amount"
+          value={trsData.trsAmount}
+          onChangeText={(text) => setTRSData({ ...trsData, trsAmount: text })}
+          placeholder="Enter TRS Amount"
+          keyboardType="numeric"
+        />
 
-      {/* Submit Button */}
-      <TouchableOpacity className="bg-blue-600 h-12 rounded-lg flex-row justify-center items-center">
-        <Text className="text-white text-lg font-semibold">Create TRS</Text>
-      </TouchableOpacity>
+        {/* Image Upload */}
+        <View className="mb-6">
+          <Text className="text-base text-gray-700 mb-2">Upload content</Text>
+          <TouchableOpacity
+            className="border-dotted border-gray-200 border-2 rounded-lg p-4"
+            onPress={pickImage}
+          >
+            {trsData.image ? (
+              <Image
+                source={{ uri: trsData.image }}
+                className="w-full h-40 rounded-lg"
+                resizeMode="cover"
+              />
+            ) : (
+              <Text className="text-gray-500">Browse for content</Text>
+            )}
+          </TouchableOpacity>
+        </View>
+
+        <CustomTextInput
+          placeholder="Enter content URL"
+          value={trsData.contentUrl}
+          onChangeText={(text) => setTRSData({ ...trsData, contentUrl: text })}
+        />
+
+        <GradientButton
+          text="Review"
+          onPress={() => {
+            navigation.navigate("ReviewTrsScreen", trsData);
+          }}
+        />
+      </ScrollView>
     </SafeAreaView>
   );
 };

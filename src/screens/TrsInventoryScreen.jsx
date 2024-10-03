@@ -12,8 +12,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { wallet } from "../constant/routes";
 import OrbNavigation from "../components/OrbNavigation";
 import TrsCard from "../components/common/trsCard";
+import { useNavigation } from "@react-navigation/native";
 
 const TrsInventoryScreen = () => {
+  const navigation = useNavigation();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true); // Manage loading state
   const [selectedTab, setSelectedTab] = useState("inventory");
@@ -52,7 +54,7 @@ const TrsInventoryScreen = () => {
       
       <View className="flex-row justify-between p-4 border-b border-gray-200">
         <Text className="text-xl font-bold">My TRS</Text>
-        <TouchableOpacity className="flex-row items-center">
+        <TouchableOpacity className="flex-row items-center" onPress={() => navigation.navigate("CreateTrs")}>
           <Text className="text-gray-500">Create TRS</Text>
           <View className="ml-1 h-6 w-6 border border-gray-500 rounded-full justify-center items-center">
             <Text className="text-gray-500">+</Text>
