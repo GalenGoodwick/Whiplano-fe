@@ -12,7 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import color from "../../constant/color";
 
-const screenWidth = Dimensions.get('window').width;
+const screenWidth = Dimensions.get("window").width;
 const OrbNavigation = () => {
   const navigation = useNavigation();
   const pan = useRef(new Animated.ValueXY()).current;
@@ -61,16 +61,14 @@ const OrbNavigation = () => {
                 circleLayouts.current.forEach((circle, index) => {
                   if (isCollision(pepperBox, circle)) {
                     if (index === 0) {
-                      console.log("0");
-                      navigation.replace("Landing");
+                      navigation.replace("TrsMarket");
                     } else if (index === 1) {
-                      console.log("1");
-                      setLocationTitle("Learn");
-                      navigation.replace("Splash");
+                      navigation.replace("Wallet");
                     } else if (index === 2) {
+                      navigation.replace("account");
+                    } else if (index === 3) {
                       console.log("2");
-                      setLocationTitle("Account");
-                      // navigation.replace("Splash");
+                      setLocationTitle("Landing");
                     }
                   }
                 });
@@ -120,35 +118,35 @@ const OrbNavigation = () => {
     <>
       {/* Pepper button (changes to cross when navigation is visible) */}
       <View
-      style={{
-        position: 'absolute',
-        bottom: 30,
-        right: 0,
-        left: 0, // Ensures the button spans the full width
-        width: screenWidth - 30, // Full width minus a little margin
-        marginHorizontal: 15, // Center horizontally with margin
-        zIndex: 999
-      }}
-    >
-      <TouchableOpacity
-        onPress={toggleNavigation}
         style={{
-          flexDirection: 'row',
-          justifyContent: 'flex-end'
+          position: "absolute",
+          bottom: 30,
+          right: 0,
+          left: 0, // Ensures the button spans the full width
+          width: screenWidth - 30, // Full width minus a little margin
+          marginHorizontal: 15, // Center horizontally with margin
+          zIndex: 999,
         }}
       >
-        {/* Text
+        <TouchableOpacity
+          onPress={toggleNavigation}
+          style={{
+            flexDirection: "row",
+            justifyContent: "flex-end",
+          }}
+        >
+          {/* Text
         <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold', marginRight: 10 }}>
           My TRS Inventory
         </Text> */}
 
-        {/* Image or Icon */}
-        <Image
-          source={{ uri: 'https://i.ibb.co/XWhq3k7/Whippy.png' }} // Replace with the actual logo URL
-          style={{ width: 50, height: 50, borderRadius: 15 }} // Icon size and style
-        />
-      </TouchableOpacity>
-    </View>
+          {/* Image or Icon */}
+          <Image
+            source={{ uri: "https://i.ibb.co/XWhq3k7/Whippy.png" }} // Replace with the actual logo URL
+            style={{ width: 50, height: 50, borderRadius: 15 }} // Icon size and style
+          />
+        </TouchableOpacity>
+      </View>
 
       {isNavigationVisible && (
         <View
@@ -158,13 +156,13 @@ const OrbNavigation = () => {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: "rgba(255, 255, 255, 0.85)", // Transparent white background
+            backgroundColor: "rgba(0, 0, 0, 1)", // Transparent white background
             zIndex: 998, // Keep it below the pepper icon but above the content
           }}
         >
           <SafeAreaView className="p-3">
             <View className="flex-row items-center justify-between">
-              <Text className="text-3xl font-bold text-black">
+              <Text className="text-3xl font-bold text-white">
                 ORB Navigation
               </Text>
 
@@ -184,25 +182,26 @@ const OrbNavigation = () => {
             <View style={styles.row}>
               {/* Market circle */}
               <View ref={circleRefs[0]} style={styles.circle}>
-                <Text style={styles.circleLabel}>Market</Text>
-                {/* <Image source={require('/mnt/data/image.png')} style={styles.circleLogo} /> */}
+                <View>
+                  <Text style={styles.circleLabel}>Market</Text>
+                </View>
               </View>
 
               {/* Exit circle */}
               <View ref={circleRefs[1]} style={styles.circle}>
-                <Text style={styles.circleLabel}>Exit</Text>
+                <Text style={styles.circleLabel}>Wallet</Text>
                 {/* <Image source={{ uri: "https://i.ibb.co/7jfhC1K/whiplano.png" }} style={styles.circleLogo} /> */}
               </View>
 
               {/* Chat circle */}
               <View ref={circleRefs[2]} style={styles.circle}>
-                <Text style={styles.circleLabel}>Chat</Text>
+                <Text style={styles.circleLabel}>Account</Text>
                 {/* <Image source={{ uri: "https://i.ibb.co/7jfhC1K/whiplano.png" }} style={styles.circleLogo} /> */}
               </View>
 
               {/* Map circle */}
               <View ref={circleRefs[3]} style={styles.circle}>
-                <Text style={styles.circleLabel}>Map</Text>
+                <Text style={styles.circleLabel}>Exit</Text>
                 {/* <Image source={require('/mnt/data/image.png')} style={styles.circleLogo} /> */}
               </View>
             </View>
@@ -242,6 +241,7 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 40,
+    backgroundColor: "white",
   },
 
   pepperImage: {

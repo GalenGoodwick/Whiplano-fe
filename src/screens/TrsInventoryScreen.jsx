@@ -56,7 +56,7 @@ const TrsInventoryScreen = () => {
       
       <View className="flex-row justify-between p-4 border-b border-gray-200">
         <Text className="text-xl font-bold">My TRS</Text>
-        <TouchableOpacity className="flex-row items-center" onPress={() => navigation.replace("CreateTrs")}>
+        <TouchableOpacity className="flex-row items-center" onPress={() => navigation.navigate("CreateTrs")}>
           <Text className="text-gray-500">Create TRS</Text>
           <View className="ml-1 h-6 w-6 border border-gray-500 rounded-full justify-center items-center">
             <Text className="text-gray-500">+</Text>

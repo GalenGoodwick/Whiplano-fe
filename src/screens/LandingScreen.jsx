@@ -74,17 +74,16 @@ const LandingScreen = () => {
                       navigation.navigate("TrsMarket");
                       console.log("1");
                     } else if (index === 2) {
-                      // navigation.navigate("Wallet");
-                      console.log("2");
+                      navigation.navigate("account");
                     } else if (index === 3) {
                       setLocationTitle("Exit");
                       // navigation.navigate("Splash");
                     } else if (index === 4) {
                       console.log("4");
-                      navigation.navigate("ApproveTrs")
+
                       // navigation.navigate("Splash");
                     } else if (index === 5) {
-                      setLocationTitle("Map");
+                      navigation.navigate("ApproveTrs");
                       // navigation.navigate("Splash");
                     }
                   }
@@ -160,19 +159,22 @@ const LandingScreen = () => {
       {/* Middle Circles (TRS Marketplace, Learn, Account) */}
       <View className="flex-1 justify-center items-center">
         <View>
-          <Text className="text-center mb-3">Home</Text>
+          <Text className="text-[#E82DF7] mb-2 text-center font-bold">
+            Wallet
+          </Text>
           <View ref={circleRefs[0]} style={styles.circle}></View>
         </View>
-        <View style={styles.row}>
-          <View>
-            <Text>Market Place</Text>
-            <View ref={circleRefs[1]} style={styles.circle} />
-          </View>
-          <View>
-            <Text>Wallet</Text>
-            <View ref={circleRefs[2]} style={styles.circle} />
-          </View>
+        <View>
+          <Text className="text-[#E82DF7] text-center mb-2 font-bold">
+            Market Place
+          </Text>
+          <View ref={circleRefs[1]} style={styles.circle} />
         </View>
+        <View>
+          <Text className="text-[#E82DF7] text-center mb-2 font-bold">account</Text>
+          <View ref={circleRefs[2]} style={styles.circle} />
+        </View>
+        <View style={styles.row}></View>
         <Text style={styles.pepperText}>
           Drop the pepper into a bubble to navigate
         </Text>
@@ -181,13 +183,13 @@ const LandingScreen = () => {
       {/* Bottom Circles (Exit, Main Chat, Map) */}
       <View style={styles.row}>
         <View ref={circleRefs[3]} style={styles.circle}>
-          <Text>X</Text>
+          <Text className="text-[#E82DF7] text-center  font-bold">X</Text>
         </View>
         <View ref={circleRefs[4]} style={styles.circle}>
-          <Text>🗨️</Text>
+          <Text className="text-[#E82DF7] text-center  font-bold">Account</Text>
         </View>
         <View ref={circleRefs[5]} style={styles.circle}>
-          <Text>M</Text>
+          <Text className="text-[#E82DF7] text-center  font-bold">admin</Text>
         </View>
       </View>
     </SafeAreaView>
@@ -199,7 +201,7 @@ const styles = {
   container: {
     flex: 1,
     justifyContent: "space-between",
-    backgroundColor: "white",
+    backgroundColor: "black",
     paddingHorizontal: "5%",
   },
   title: {
@@ -207,6 +209,7 @@ const styles = {
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 20,
+    color: "#E82DF7",
   },
   row: {
     flexDirection: "row",
@@ -219,7 +222,7 @@ const styles = {
     height: Dimensions.get("window").width * 0.2,
     borderRadius: Dimensions.get("window").width * 0.1,
     borderWidth: 2,
-    borderColor: "#f33", // Pink color for border
+    borderColor: "#E82DF7", // Pink color for border
     justifyContent: "center",
     alignItems: "center",
   },

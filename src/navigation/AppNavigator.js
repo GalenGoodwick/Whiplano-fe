@@ -18,6 +18,7 @@ import TrsDetailScreen from "../screens/TrsDetailScreen";
 import ReviewTRSScreen from "../screens/TrsReviewScreen";
 import TrsDetailMarketPlaceScreen from "../screens/TrsDetailMarketPlaceScreen";
 import ApproveTrsScreen from "../screens/approveTrsScreen";
+import AccountScreen from "../screens/accountScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -93,6 +94,12 @@ const AppNavigator = () => {
               component={ApproveTrsScreen}
               options={{ headerShown: false }}
             />
+            <Stack.Screen
+              name="account"
+              component={AccountScreen}
+              options={{ headerShown: false }}
+            />
+
           </>
         ) : (
           <>

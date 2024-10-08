@@ -7,6 +7,8 @@ import { MinusIcon, PlusIcon } from "react-native-heroicons/outline";
 const BuyTrsModal = ({ modalVisible, setModalVisible, handleClick, data }) => {
   console.log("🚀 ~ BuyTrsModal ~ data:", data)
   const [isRestricted, setIsRestricted] = useState(false);
+  const trsData = data?.collection_data[0]
+
 
   return (
     <Modal
@@ -41,7 +43,7 @@ const BuyTrsModal = ({ modalVisible, setModalVisible, handleClick, data }) => {
           </View>
         <View>
         <Image
-            source={{ uri: data?.image || "https://i.ibb.co/tLB8RGL/Image-4.png" }}
+            source={{ uri: trsData?.image_uri || "https://i.ibb.co/tLB8RGL/Image-4.png" }}
             className="w-full h-40 rounded-lg mb-4"
             resizeMode="cover"
           />
