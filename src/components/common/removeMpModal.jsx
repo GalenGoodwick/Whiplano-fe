@@ -93,7 +93,7 @@ import {
                 value={trsAmount}
                 onChangeText={(value) => setTrsAmount(value)}
                 editable={!loading} // Disable input while loading
-                keyboardType="numeric"
+                
               />
             </View>
   
