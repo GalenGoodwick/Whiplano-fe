@@ -38,7 +38,7 @@ const PaymentMethod = () => {
       {/* Continue Button */}
       <View className="flex-1 justify-end">
         <TouchableOpacity
-          onPress={() => navigation.navigate('ReviewSummary')}
+          onPress={() => navigation.replace('ReviewSummary')}
           className="bg-blue-600 h-14 rounded-lg flex-row justify-center items-center"
         >
           <Text className="text-white text-lg">Continue</Text>

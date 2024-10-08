@@ -99,7 +99,7 @@ const SignupScreen = () => {
           <Text
             className="text-blue-600 font-semibold"
             role="button"
-            onPress={() => navigation.navigate("Login")}
+            onPress={() => navigation.replace("Login")}
           >
             Login
           </Text>

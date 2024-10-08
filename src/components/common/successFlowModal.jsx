@@ -1,19 +1,22 @@
 import {
-    Image,
+  Image,
   Modal,
-  Switch,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import { Circle, Path, Svg } from "react-native-svg";
 import GradientButton from "./gradientBtn";
-import { useState } from "react";
 import CopyLinkComponent from "./copyLinkComponent";
+import { useNavigation } from "@react-navigation/native"; // To navigate
 
-const SuccessFlowModal = ({ modalVisible, setModalVisible, text }) => {
-  const [isRestricted, setIsRestricted] = useState(false);
+const SuccessFlowModal = ({ modalVisible, setModalVisible, text, actionType = "" }) => {
+  const navigation = useNavigation();
+
+  const handleExploreMarketplace = () => {
+    setModalVisible(false);  // Close the modal
+    const navigationationUrl = actionType === "marketplace" ? "TrsMarket" : "Wallet";
+    navigation.replace(navigationationUrl);  // Use replace to navigate to marketplace and remove the previous steps from the stack
+  };
 
   return (
     <Modal
@@ -40,15 +43,11 @@ const SuccessFlowModal = ({ modalVisible, setModalVisible, text }) => {
             zIndex: 999, // Keep it below the pepper icon
           }}
         >
-          {/* Close Button */}
-          <View className={`flex-row justify-end`}>
-            <TouchableOpacity onPress={() => setModalVisible(false)}>
-              <Text className={`text-gray-500 text-lg`}>X</Text>
-            </TouchableOpacity>
-          </View>
-
           <View className={`flex-row justify-center mb-4`}>
-            <Image source={{ uri: "https://i.ibb.co/SnV2DBv/success-Tick.png" }} className={`w-16 h-16`} />
+            <Image
+              source={{ uri: "https://i.ibb.co/SnV2DBv/success-Tick.png" }}
+              className={`w-16 h-16`}
+            />
           </View>
 
           {/* Modal Content */}
@@ -56,11 +55,17 @@ const SuccessFlowModal = ({ modalVisible, setModalVisible, text }) => {
             {text}
           </Text>
 
-          <CopyLinkComponent />
+          {
+            actionType === "marketplace" && ( 
+              <CopyLinkComponent />
+            )
+          }
 
           <View className={`flex-row justify-center mt-9`}>
-            <TouchableOpacity>
-                <Text className={`text-black font-bold`}>Explore more Marketplace</Text>
+            <TouchableOpacity onPress={handleExploreMarketplace}>
+              <Text className={`text-black font-bold`}>
+                {actionType === "marketplace" ? "Explore Marketplace" : "Explore Artisan"} 
+              </Text>
             </TouchableOpacity>
           </View>
         </View>

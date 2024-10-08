@@ -41,6 +41,7 @@ export const signUpUser = createAsyncThunk(
 
       return data;
     } catch (error) {
+      console.log("🚀 ~ error:", error.response.data)
       hideToast(); // Remove loading toast
       showErrorToast("Failed to sign up"); // Show error toast
 

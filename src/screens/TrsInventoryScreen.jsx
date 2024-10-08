@@ -17,6 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 const TrsInventoryScreen = () => {
   const navigation = useNavigation();
   const [data, setData] = useState([]);
+  console.log("🚀 ~ TrsInventoryScreen ~ data:", data)
   const [loading, setLoading] = useState(true); // Manage loading state
   const [selectedTab, setSelectedTab] = useState("inventory");
 
@@ -29,6 +30,7 @@ const TrsInventoryScreen = () => {
       };
     });
   };
+
 
   // Fetch the TRS data
   const fetchTrs = async () => {
@@ -54,7 +56,7 @@ const TrsInventoryScreen = () => {
       
       <View className="flex-row justify-between p-4 border-b border-gray-200">
         <Text className="text-xl font-bold">My TRS</Text>
-        <TouchableOpacity className="flex-row items-center" onPress={() => navigation.navigate("CreateTrs")}>
+        <TouchableOpacity className="flex-row items-center" onPress={() => navigation.replace("CreateTrs")}>
           <Text className="text-gray-500">Create TRS</Text>
           <View className="ml-1 h-6 w-6 border border-gray-500 rounded-full justify-center items-center">
             <Text className="text-gray-500">+</Text>

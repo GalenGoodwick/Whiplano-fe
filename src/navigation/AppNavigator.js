@@ -9,7 +9,6 @@ import HomeScreen from "../screens/HomeScreen";
 import LoginScreen from "../screens/LoginScreen";
 import SignupScreen from "../screens/SignUpScreen";
 import TrsMarketScreen from "../screens/TrsMarketScreen";
-import ProductDetail from "../screens/ProductDetailScreen";
 import PaymentMethod from "../screens/PaymentMethodScreen";
 import ReviewSummary from "../screens/ReviewSummaryScreen";
 import CreateTRSScreen from "../screens/CreateTrsScreen";
@@ -17,6 +16,8 @@ import { checkAuthState } from "../redux/slices/authSlice";
 import TrsInventoryScreen from "../screens/TrsInventoryScreen";
 import TrsDetailScreen from "../screens/TrsDetailScreen";
 import ReviewTRSScreen from "../screens/TrsReviewScreen";
+import TrsDetailMarketPlaceScreen from "../screens/TrsDetailMarketPlaceScreen";
+import ApproveTrsScreen from "../screens/approveTrsScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -53,8 +54,8 @@ const AppNavigator = () => {
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="ProductDetail"
-              component={ProductDetail}
+              name="TrsDetailMarketPlace"
+              component={TrsDetailMarketPlaceScreen}
               options={{ headerShown: false }}
             />
             <Stack.Screen
@@ -85,6 +86,11 @@ const AppNavigator = () => {
             <Stack.Screen
               name="ReviewTrsScreen"
               component={ReviewTRSScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="ApproveTrs"
+              component={ApproveTrsScreen}
               options={{ headerShown: false }}
             />
           </>

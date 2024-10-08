@@ -1,30 +1,40 @@
 // screens/TrsMarketScreen.js
-import React from 'react';
-import { View, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useCallback, useEffect, useState } from "react";
+import { View, ScrollView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import TrsHeader from '../components/common/trsHeader';
-import TrsSection from '../components/TrsMarketPlace/section';
-import CustomCarousel from '../components/common/customCarousel';
+import TrsHeader from "../components/common/trsHeader";
+import TrsSection from "../components/TrsMarketPlace/section";
+import CustomCarousel from "../components/common/customCarousel";
 import OrbNavigation from "../components/OrbNavigation";
+import TRSSearchBar from "../components/common/trsSearchBar";
+import axios from "axios";
+import { marketPlace } from "../constant/routes";
 const TrsMarketScreen = () => {
-  const perfectForYouProducts = [
-    { name: 'Whiplano Book', price: 12.00 },
-    { name: 'Tomas Art', price: 15.00 },
-  ];
+  const [data, setData] = useState([]);
 
-  const forSummerProducts = [
-    { name: 'Summer Dress', price: 25.00 },
-    { name: 'Cool Shorts', price: 10.00 },
-  ];
+  const fetchMarketplaceData = useCallback(async () => {
+    try {
+      const {data} = await axios.get(`${marketPlace}`);
+      setData(data);
+      console.log("🚀 ~ fetchMarketplaceData ~ data:", data)
+
+    } catch (error) {
+      console.log("🚀 ~ fetchMarketplaceData ~ error:", error.response.data)
+      
+    }
+  },[])
+
+  useEffect(() => {
+    fetchMarketplaceData();
+  }, [fetchMarketplaceData]);
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <TrsHeader />
+    <SafeAreaView className="flex-1 bg-gray-100">
+      <TRSSearchBar />
       <ScrollView>
-        <CustomCarousel />
-        <TrsSection title="Perfect for you" products={perfectForYouProducts} />
-        <TrsSection title="For this summer" products={forSummerProducts} /> 
+        <TrsSection products={data} />
+        <TrsSection title="Most sold" products={data} />
       </ScrollView>
       <OrbNavigation />
     </SafeAreaView>

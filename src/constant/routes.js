@@ -6,3 +6,6 @@ export const login = `${host}/login`;
 export const signup = `${host}/signup`;
 export const wallet = `${host}/wallet`;
 export const user = `${host}/users`;
+export const marketPlace = `${host}/marketplace`;
+export const create = `${host}/create_trs_request`;
+

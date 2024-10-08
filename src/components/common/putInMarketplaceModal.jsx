@@ -1,12 +1,52 @@
-import { Modal, Switch, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { Path, Svg } from "react-native-svg";
-import GradientButton from "./gradientBtn";
+import {
+  Modal,
+  Switch,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  ActivityIndicator,
+  Alert, // for alerting users
+} from "react-native";
 import { useState } from "react";
+import GradientButton from "./gradientBtn";
 
-
-const PutOnMarketplaceModal = ({ modalVisible, setModalVisible, handleClick }) => {
-
+const PutOnMarketplaceModal = ({
+  modalVisible,
+  setModalVisible,
+  handleClick,
+  data,
+  actionType,
+}) => {
+  const [price, setPrice] = useState("");
+  const [trsAmount, setTrsAmount] = useState("");
   const [isRestricted, setIsRestricted] = useState(false);
+  const [loading, setLoading] = useState(false); // Loading state
+
+  const handleSubmit = async () => {
+    // Validate fields
+    if (trsAmount === "" || (actionType === "marketplace" && price === "")) {
+      Alert.alert("Error", "Please fill all required fields with valid numbers.");
+      return;
+    }
+
+    setLoading(true); // Set loading to true when API call starts
+
+    const payload = {
+      collection_name: data?.id,
+      number: trsAmount,
+      ...(actionType === "marketplace" && { price }), // Include price only for marketplace
+    };
+
+    try {
+      await handleClick(payload); // Pass the data to the API handler
+    } catch (err) {
+      console.error("Error while handling action:", err);
+    } finally {
+      setLoading(false); // Set loading to false when API call ends
+      setModalVisible(false); // Close the modal
+    }
+  };
 
   return (
     <Modal
@@ -19,8 +59,7 @@ const PutOnMarketplaceModal = ({ modalVisible, setModalVisible, handleClick }) =
         style={{
           flex: 1,
           justifyContent: "flex-end",
-          backgroundColor: "rgba(0, 0, 0, 0.2)", // Transparent white background
-          zIndex: 998, // Keep it below the pepper icon but above the content
+          backgroundColor: "rgba(0, 0, 0, 0.2)",
         }}
       >
         <View
@@ -30,125 +69,99 @@ const PutOnMarketplaceModal = ({ modalVisible, setModalVisible, handleClick }) =
             borderTopRightRadius: 20,
             paddingHorizontal: 20,
             paddingVertical: 30,
-            zIndex: 999, // Keep it below the pepper icon
           }}
         >
           {/* Close Button */}
-          <View className={`flex-row justify-end`}>
-            <TouchableOpacity onPress={() => setModalVisible(false)}>
-              <Text className={`text-gray-500 text-lg`}>X</Text>
+          <View className="flex-row justify-end">
+            <TouchableOpacity
+              onPress={() => setModalVisible(false)}
+              disabled={loading} // Disable button while loading
+            >
+              <Text className="text-gray-500 text-lg">X</Text>
             </TouchableOpacity>
           </View>
 
-          {/* Modal Content */}
-          <Text className={`text-xl font-semibold mb-4`}>
-            Sell "The life’s work of a Gay Nobody" TRS
+          {/* Modal Title */}
+          <Text className="text-xl font-semibold mb-4">
+            {actionType === "marketplace"
+              ? "Sell TRS on Marketplace"
+              : "Activate Artisan Rights"}
           </Text>
 
-          {/* Price Input */}
-          <View className={`mb-4`}>
-            <View className={`flex-row gap-2 items-center`}>
-              <Text className={`text-sm text-gray-600`}>Price</Text>
-              <Svg
-                width="16"
-                height="17"
-                viewBox="0 0 16 17"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <Path
-                  d="M7.99967 15.1666C11.6663 15.1666 14.6663 12.1666 14.6663 8.49992C14.6663 4.83325 11.6663 1.83325 7.99967 1.83325C4.33301 1.83325 1.33301 4.83325 1.33301 8.49992C1.33301 12.1666 4.33301 15.1666 7.99967 15.1666Z"
-                  stroke="#292D32"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <Path
-                  opacity="0.34"
-                  d="M8 5.83325V9.16659"
-                  stroke="#292D32"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <Path
-                  opacity="0.34"
-                  d="M7.99609 11.1667H8.00208"
-                  stroke="#292D32"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </Svg>
+          {/* TRS Amount Input */}
+          <View className="mb-4">
+            <View className="flex-row gap-2 items-center">
+              <Text className="text-sm text-gray-600">TRS Amount</Text>
             </View>
             <TextInput
-              className={`border border-gray-300 rounded-lg px-3 py-2 mt-2`}
-              placeholder="$1"
+              className="border border-gray-300 rounded-lg px-3 py-2 mt-2"
+              placeholder="Enter TRS Amount"
+              value={trsAmount}
+              onChangeText={(value) => {
+                if (!isNaN(value)) setTrsAmount(value); // Ensure only numeric input
+              }}
+              keyboardType="numeric" // Allow only numbers in the input
+              editable={!loading} // Disable input while loading
             />
           </View>
 
-          {/* TRS Amount Input */}
-          <View className={`mb-4`}>
-            <View className={`flex-row gap-2 items-center`}>
-              <Text className={`text-sm text-gray-600`}>TRS Amount</Text>
-              <Svg
-                width="16"
-                height="17"
-                viewBox="0 0 16 17"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <Path
-                  d="M7.99967 15.1666C11.6663 15.1666 14.6663 12.1666 14.6663 8.49992C14.6663 4.83325 11.6663 1.83325 7.99967 1.83325C4.33301 1.83325 1.33301 4.83325 1.33301 8.49992C1.33301 12.1666 4.33301 15.1666 7.99967 15.1666Z"
-                  stroke="#292D32"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <Path
-                  opacity="0.34"
-                  d="M8 5.83325V9.16659"
-                  stroke="#292D32"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <Path
-                  opacity="0.34"
-                  d="M7.99609 11.1667H8.00208"
-                  stroke="#292D32"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </Svg>
+          {/* Show Price Input Only for Marketplace */}
+          {actionType === "marketplace" && (
+            <View className="mb-4">
+              <View className="flex-row gap-2 items-center">
+                <Text className="text-sm text-gray-600">Price</Text>
+              </View>
+              <TextInput
+                className="border border-gray-300 rounded-lg px-3 py-2 mt-2"
+                placeholder="$1"
+                value={price}
+                onChangeText={(value) => {
+                  if (!isNaN(value)) setPrice(value); // Ensure only numeric input
+                }}
+                keyboardType="numeric" // Allow only numbers in the input
+                editable={!loading} // Disable input while loading
+              />
             </View>
-            <TextInput
-              className={`border border-gray-300 rounded-lg px-3 py-2 mt-2`}
-              placeholder="Enter Trs Amount"
-            />
-          </View>
+          )}
 
           {/* Restrict Sales to User Toggle */}
-          <View className={`flex-row items-center justify-between mb-4`}>
-            <Text className={`text-sm text-black font-bold`}>
+          <View className="flex-row items-center justify-between mb-4">
+            <Text className="text-sm text-black font-bold">
               Restrict sales to user
             </Text>
             <Switch
               value={isRestricted}
               onValueChange={(value) => setIsRestricted(value)}
+              disabled={loading} // Disable switch while loading
               thumbColor={isRestricted ? "#f472b6" : "#f4f3f4"}
               trackColor={{ false: "#767577", true: "#f472b6" }}
             />
           </View>
 
           {/* Submit Button */}
-          <GradientButton text="Put it on marketplace" onPress={handleClick}/>
+          <GradientButton
+            text={
+              actionType === "marketplace"
+                ? "Put it on Marketplace"
+                : "Activate Artisan Rights"
+            }
+            onPress={handleSubmit}
+            disabled={loading} // Disable button while loading
+          />
+
+          {/* Loading Indicator */}
+          {loading && (
+            <View className="mt-4 flex-row justify-center">
+              <ActivityIndicator size="large" color="#7371d8" />
+              <Text className="text-center text-gray-500 ml-2">
+                Processing...
+              </Text>
+            </View>
+          )}
         </View>
       </View>
     </Modal>
   );
 };
-
 
 export default PutOnMarketplaceModal;

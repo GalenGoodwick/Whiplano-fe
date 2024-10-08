@@ -62,13 +62,15 @@ const OrbNavigation = () => {
                   if (isCollision(pepperBox, circle)) {
                     if (index === 0) {
                       console.log("0");
-                      navigation.navigate("Landing");
+                      navigation.replace("Landing");
                     } else if (index === 1) {
+                      console.log("1");
                       setLocationTitle("Learn");
-                      navigation.navigate("Splash");
+                      navigation.replace("Splash");
                     } else if (index === 2) {
+                      console.log("2");
                       setLocationTitle("Account");
-                      // navigation.navigate("Splash");
+                      // navigation.replace("Splash");
                     }
                   }
                 });
@@ -131,19 +133,14 @@ const OrbNavigation = () => {
       <TouchableOpacity
         onPress={toggleNavigation}
         style={{
-          backgroundColor: color.primary_purple, // Purple color from the image
-          borderRadius: 30,
-          paddingVertical: 10,
-          paddingHorizontal: 20,
           flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
+          justifyContent: 'flex-end'
         }}
       >
-        {/* Text */}
+        {/* Text
         <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold', marginRight: 10 }}>
           My TRS Inventory
-        </Text>
+        </Text> */}
 
         {/* Image or Icon */}
         <Image

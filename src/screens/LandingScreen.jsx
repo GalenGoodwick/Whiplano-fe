@@ -17,7 +17,7 @@ const LandingScreen = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
 
-console.log("Authenticated User: ", user);
+  console.log("Authenticated User: ", user);
 
   const navigation = useNavigation();
   const pan = useRef(new Animated.ValueXY()).current;
@@ -68,16 +68,20 @@ console.log("Authenticated User: ", user);
                 circleLayouts.current.forEach((circle, index) => {
                   if (isCollision(pepperBox, circle)) {
                     if (index === 0) {
-                      navigation.navigate("Home");
+                      navigation.navigate("Wallet");
+                      console.log("0");
                     } else if (index === 1) {
                       navigation.navigate("TrsMarket");
+                      console.log("1");
                     } else if (index === 2) {
-                      navigation.navigate("Wallet");
+                      // navigation.navigate("Wallet");
+                      console.log("2");
                     } else if (index === 3) {
                       setLocationTitle("Exit");
                       // navigation.navigate("Splash");
                     } else if (index === 4) {
-                      setLocationTitle("Main Chat");
+                      console.log("4");
+                      navigation.navigate("ApproveTrs")
                       // navigation.navigate("Splash");
                     } else if (index === 5) {
                       setLocationTitle("Map");
@@ -144,8 +148,8 @@ console.log("Authenticated User: ", user);
         />
       </Animated.View>
       <View>
-      <TouchableOpacity onPress={handleLogout}>
-        <Text>Logout</Text>
+        <TouchableOpacity onPress={handleLogout}>
+          <Text>Logout</Text>
         </TouchableOpacity>
       </View>
       <View>
@@ -162,11 +166,11 @@ console.log("Authenticated User: ", user);
         <View style={styles.row}>
           <View>
             <Text>Market Place</Text>
-            <View ref={circleRefs[1]} style={styles.circle}></View>
+            <View ref={circleRefs[1]} style={styles.circle} />
           </View>
           <View>
             <Text>Wallet</Text>
-            <View ref={circleRefs[2]} style={styles.circle}></View>
+            <View ref={circleRefs[2]} style={styles.circle} />
           </View>
         </View>
         <Text style={styles.pepperText}>
