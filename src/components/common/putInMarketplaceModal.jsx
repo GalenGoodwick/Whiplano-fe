@@ -100,7 +100,7 @@ const PutOnMarketplaceModal = ({
               onChangeText={(value) => {
                 if (!isNaN(value)) setTrsAmount(value); // Ensure only numeric input
               }}
-              keyboardType="numeric" // Allow only numbers in the input
+               // Allow only numbers in the input
               editable={!loading} // Disable input while loading
             />
           </View>
@@ -118,7 +118,7 @@ const PutOnMarketplaceModal = ({
                 onChangeText={(value) => {
                   if (!isNaN(value)) setPrice(value); // Ensure only numeric input
                 }}
-                keyboardType="numeric" // Allow only numbers in the input
+                 // Allow only numbers in the input
                 editable={!loading} // Disable input while loading
               />
             </View>
